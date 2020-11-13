@@ -1,18 +1,49 @@
+# :coding: utf-8
+
+import os.path
 import setuptools
 
-with open("README.md", "r") as fh:
-    long_description = fh.read()
+ROOT_PATH = os.path.dirname(os.path.realpath(__file__))
+SOURCE_PATH = os.path.join(ROOT_PATH, "source")
+README_PATH = os.path.join(ROOT_PATH, "README.rst")
+
+# with open(README_PATH, "r") as fh:
+#     long_description = fh.read()
+long_description = "Placeholder"
+
+# Compute dependencies.
+INSTALL_REQUIRES = [
+    "Pillow >= 8, < 9",
+]
+
+TEST_REQUIRES = [
+    "pytest >= 4, < 5",
+    "pytest-benchmark >= 3.2.3, < 4",
+    "pytest-cov >= 2, < 3",
+    "pytest-mock >= 2, < 3",
+    "pytest-runner >= 2.7, < 3",
+    "pytest-xdist >= 1.18, < 2"
+]
+
 
 setuptools.setup(
     name="synes",
     version="0.0.1",
     author="Zephyr Mann",
     author_email="zephmann@gmail.com",
-    description="Translate image to audio and vice versa",
+    description="Translate image to audio and vice versa.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/zephmann/synes",
-    packages=setuptools.find_packages(),
+    packages=setuptools.find_packages(SOURCE_PATH),
+    package_dir={
+        "": "source"
+    },
+    install_requires=INSTALL_REQUIRES,
+    tests_require=TEST_REQUIRES,
+    extras_require={
+        "test": TEST_REQUIRES,
+    },
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

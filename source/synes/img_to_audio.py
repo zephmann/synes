@@ -6,12 +6,34 @@ import wave
 
 from PIL import Image
 
-from synes.symbol import IMAGE_MODE_TO_CHANNELS
+from synes.symbol import (
+    IMAGE_MODE_TO_CHANNELS,
+    DEFAULT_AUDIO_TYPE
+)
 
 
-def translate_image(img_path, sample_rate):
+def translate_image(img_path, sample_rate, output_path=None):
+    """
+    Write out a new audio file using the pixels from *img_path* as the 
+    audio samples.
+
+    :param img_path: input image file path
+    :param sample_rate: sample rate for output audio file
+    :param output_path: optional file path for output audio file
+
+    """
     logger = logging.getLogger("image_to_audio")
     logger.setLevel(logging.INFO)
+
+    # resolve audio output file path
+    if output_path is None:
+        img_dir, img_name = os.path.split(img_path)
+        img_name = os.path.splitext(img_name)[0]
+        output_path = os.path.join(
+            img_dir, "{}.{}}".format(img_name, DEFAULT_AUDIO_TYPE)
+        )
+
+    # TODO check that output path has correct extension
 
     logger.info("Reading image file '{}'.".format(img_path))
     with Image.open(img_path) as img_in:
@@ -44,20 +66,15 @@ def translate_image(img_path, sample_rate):
                     "unrecognized pixel type '{}'.".format(type(pix))
                 )
 
-    # resolve wave output file path
-    img_dir, img_name = os.path.split(img_path)
-    img_name = os.path.splitext(img_name)[0]
-    wave_path = os.path.join(img_dir, "{}.wav".format(img_name))
-
     # TODO check if file already exists?
 
     duration = (width * height) / sample_rate
 
     logger.info(
-        "Translating to wave file "
+        "Translating to audio file "
         "({} secs x {} hz).".format(duration, sample_rate)
     )
-    with wave.open(wave_path, "wb") as wave_out:
+    with wave.open(output_path, "wb") as wave_out:
         wave_out.setnchannels(num_channels)
         wave_out.setsampwidth(bit_depth)
         wave_out.setframerate(sample_rate)

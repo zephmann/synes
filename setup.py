@@ -13,6 +13,7 @@ long_description = "Placeholder"
 
 # Compute dependencies.
 INSTALL_REQUIRES = [
+    "click >= 7, < 8",
     "Pillow >= 8, < 9",
 ]
 
@@ -50,4 +51,9 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     python_requires='>=3.6',
+    entry_points={
+        "console_scripts": [
+            "synes = synes.command_line:main"
+        ]
+    },
 )

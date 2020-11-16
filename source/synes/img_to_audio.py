@@ -30,7 +30,7 @@ def translate_image(img_path, sample_rate, output_path=None):
         img_dir, img_name = os.path.split(img_path)
         img_name = os.path.splitext(img_name)[0]
         output_path = os.path.join(
-            img_dir, "{}.{}}".format(img_name, DEFAULT_AUDIO_TYPE)
+            img_dir, "{}.{}".format(img_name, DEFAULT_AUDIO_TYPE)
         )
 
     # TODO check that output path has correct extension

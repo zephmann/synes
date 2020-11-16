@@ -13,4 +13,4 @@ Convert a .wav file to a .png file with a width of 100.
 
 Optional output path argument.
 
-```synes 44100 resource/a4.png -o ~/Desktop/synes_output.wav```
+```synes 44100 resource/a4_image.png -o ~/Desktop/synes_output.wav```

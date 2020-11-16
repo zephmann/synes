@@ -15,6 +15,8 @@ long_description = "Placeholder"
 INSTALL_REQUIRES = [
     "click >= 7, < 8",
     "Pillow >= 8, < 9",
+    "flask >= 1, < 2",
+    "python-dotenv >= 0.1.0, < 1",
 ]
 
 TEST_REQUIRES = [

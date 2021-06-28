@@ -1,1 +1,0 @@
-FLASK_APP=app/web_app.py

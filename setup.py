@@ -15,8 +15,6 @@ long_description = "Placeholder"
 INSTALL_REQUIRES = [
     "click >= 7, < 8",
     "Pillow >= 8, < 9",
-    "flask >= 1, < 2",
-    "python-dotenv >= 0.1.0, < 1",
 ]
 
 TEST_REQUIRES = [
@@ -31,7 +29,7 @@ TEST_REQUIRES = [
 
 setuptools.setup(
     name="synes",
-    version="0.0.1",
+    version="0.1.0",
     author="Zephyr Mann",
     author_email="zephmann@gmail.com",
     description="Translate image to audio and vice versa.",

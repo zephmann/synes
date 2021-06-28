@@ -8,7 +8,7 @@ from PIL import Image
 
 from synes.symbol import (
     IMAGE_MODE_TO_CHANNELS,
-    DEFAULT_AUDIO_TYPE
+    DEFAULT_AUDIO_TYPE,
 )
 
 
@@ -22,6 +22,7 @@ def translate_image(img_path, sample_rate, output_path=None):
     :param output_path: optional file path for output audio file
 
     """
+    # TODO ensure logger is configured properly
     logger = logging.getLogger("image_to_audio")
     logger.setLevel(logging.INFO)
 
@@ -51,6 +52,7 @@ def translate_image(img_path, sample_rate, output_path=None):
 
         pixels = img_in.load()
 
+    # TODO better way to convert pixel samples into a list, maybe numpy
     logger.info("Compiling pixel data.")
     pix_list = []
     for y in range(height):

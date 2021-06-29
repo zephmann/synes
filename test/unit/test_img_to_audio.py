@@ -69,3 +69,6 @@ def test_compile_pixels_error(opened_image):
     )
 
     assert exception_str in str(exception_info)
+
+
+# TODO test unsupported image mode

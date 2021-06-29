@@ -20,7 +20,7 @@ def translate_audio(audio_path, width, output_path=None):
     Write out a new image file using the samples from *audio_path* as the 
     image pixels.
 
-    :param img_path: input audio file path
+    :param audio_path: input audio file path
     :param width: width in pixels for output image file
     :param output_path: optional file path for output image file
 
@@ -62,10 +62,7 @@ def translate_audio(audio_path, width, output_path=None):
 
         samples = audio_in.readframes(num_samples)
 
-    # TODO group samples
     pixels = _group_pixels(samples, num_channels, num_samples)
-
-    print(len(pixels), pixels[0])
 
     # TODO check if file already exists?
 
@@ -79,7 +76,6 @@ def translate_audio(audio_path, width, output_path=None):
 
 def _group_pixels(samples, num_channels, num_samples):
     if num_channels == 1:
-        print("Num channels is 1")
         return samples
 
     # if only 2 channels, use 128 for blue
@@ -88,7 +84,6 @@ def _group_pixels(samples, num_channels, num_samples):
             while True:
                 yield 128
 
-        print("Num channels is 2")
         p = iter(samples)
         b = iter(_blue())
         return list(zip(p, p, b))

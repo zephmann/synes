@@ -73,7 +73,7 @@ def translate_audio(audio_path, width, output_path=None):
 
     logger.info("Image translated successfully.")
 
-    return output_path
+    return output_pathe
 
 
 def _group_pixels(samples, num_channels, num_samples):

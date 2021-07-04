@@ -31,9 +31,13 @@ def test_output_path(
     # mock wave.open context
     opened_wave = mocker.patch("wave.open")
 
-    synes.translate_image(img_path, 44100, output_param)
+    returned_path = synes.translate_image(img_path, 44100, output_param)
 
     opened_wave.assert_called_once_with(output_path, "wb")
+    assert output_path == returned_path
+
+    if output_param:
+        assert output_param == returned_path
 
 
 @pytest.mark.parametrize(

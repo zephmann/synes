@@ -84,3 +84,5 @@ def translate_image(img_path, sample_rate, output_path=None):
         wave_out.writeframes(bytes(pix_list))
 
     logger.info("Image translated successfully.")
+
+    return output_path

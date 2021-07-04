@@ -23,9 +23,13 @@ def test_output_path(
     opened_image = mocker.patch("PIL.Image.new")
     opened_image = opened_image.return_value.__enter__.return_value
 
-    synes.translate_audio(wav_path, 44100, output_param)
+    returned_path = synes.translate_audio(wav_path, 44100, output_param)
 
     opened_image.save.assert_called_once_with(output_path)
+    assert output_path == returned_path
+
+    if output_param:
+        assert output_param == returned_path
 
 
 @pytest.mark.parametrize(

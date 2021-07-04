@@ -27,6 +27,43 @@ def test_output_path(
 
     opened_image.save.assert_called_once_with(output_path)
 
-# TODO add test for _group_pixels
 
-# TODO test unsupported number of channels
+@pytest.mark.parametrize(
+    "samples,num_channels,output_pixels",
+    [
+        (
+            [0, 128, 255],
+            1,
+            [0, 128, 255]
+        ),
+        (
+            [0, 128, 128, 255, 255, 0],
+            2,
+            [(0, 128, 128), (128, 255, 128), (255, 0, 128)]
+        ),
+        (
+            [0, 128, 255, 128, 255, 0, 255, 0, 128],
+            3,
+            [(0, 128, 255), (128, 255, 0), (255, 0, 128)]
+        ),
+        (
+            [0, 128, 255, 0, 128, 255, 0, 128, 255, 0, 128, 255],
+            4,
+            [(0, 128, 255, 0), (128, 255, 0, 128), (255, 0, 128, 255)]
+        ),
+    ]
+)
+def test_group_pixels(samples, num_channels, output_pixels):
+    pixels = synes.audio_to_img._group_pixels(samples, num_channels, 1)
+    assert pixels == output_pixels
+
+
+def test_unsupported_num_channels(mocker):
+    opened_wave = mocker.patch("wave.open").return_value.__enter__.return_value
+    opened_wave.getnchannels.return_value = -1
+
+    with pytest.raises(RuntimeError) as exception_info:
+        synes.translate_audio("/path/image.wav", 100)
+
+    exception_str = "Unable to resolve image mode for '-1' channels."
+    assert exception_str in str(exception_info)

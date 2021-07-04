@@ -67,8 +67,16 @@ def test_compile_pixels_error(opened_image):
     exception_str = (
         "Unable to parse pixels, unrecognized pixel type '{}'.".format(dict)
     )
-
     assert exception_str in str(exception_info)
 
 
-# TODO test unsupported image mode
+def test_unsupported_image_mode(mocker):
+    opened_image = mocker.patch("PIL.Image.open")
+    opened_image = opened_image.return_value.__enter__.return_value
+    opened_image.mode = "UNSUPPORTED"
+
+    with pytest.raises(RuntimeError) as exception_info:
+        synes.translate_image("/path/image.png", 44100)
+
+    exception_str = "Unable to parse image format 'UNSUPPORTED'."
+    assert exception_str in str(exception_info)

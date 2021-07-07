@@ -7,8 +7,6 @@ ROOT_PATH = os.path.dirname(os.path.realpath(__file__))
 SOURCE_PATH = os.path.join(ROOT_PATH, "source")
 README_PATH = os.path.join(ROOT_PATH, "README.rst")
 
-# with open(README_PATH, "r") as fh:
-#     long_description = fh.read()
 long_description = "Placeholder"
 
 # Compute dependencies.
@@ -36,8 +34,7 @@ setuptools.setup(
     author="Zephyr Mann",
     author_email="zephmann@gmail.com",
     description="Translate image to audio and vice versa.",
-    long_description=long_description,
-    long_description_content_type="text/markdown",
+    long_description="Translate image to audio and vice versa.",
     url="https://github.com/zephmann/synes",
     packages=setuptools.find_packages(SOURCE_PATH),
     package_dir={

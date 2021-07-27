@@ -102,3 +102,5 @@ Thumbs.db
 .idea/
 .history/
 .benchmarks/
+
+.DS_Store

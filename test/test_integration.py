@@ -32,7 +32,7 @@ def test_img_to_audio_round_trip():
     assert filecmp.cmp(RESOURCE_WAVE, output_wave), message
 
     try:
-        output_image = synes.translate_image(output_wave, RESOURCE_WIDTH)
+        output_image = synes.translate_audio(output_wave, RESOURCE_WIDTH)
     except Exception as exc:
         assert False, "Audio-to-image translation failed.\n{}".format(exc)
 
@@ -42,7 +42,7 @@ def test_img_to_audio_round_trip():
 
 def test_audio_to_img_round_trip():
     """Test translating audio to an image and back to audio."""
-    output_image = os.path.join(tempfile.gettempdir(), "test_output.wav")
+    output_image = os.path.join(tempfile.gettempdir(), "test_output.png")
     try:
         synes.translate_audio(
             RESOURCE_WAVE, RESOURCE_WIDTH, output_path=output_image
@@ -54,9 +54,9 @@ def test_audio_to_img_round_trip():
     assert filecmp.cmp(RESOURCE_IMAGE, output_image), message
 
     try:
-        output_wave = synes.translate_image(output_image, RESOURCE_WIDTH)
+        output_wave = synes.translate_image(output_image, RESOURCE_SAMPLE_RATE)
     except Exception as exc:
         assert False, "Image-to-audio translation failed.\n{}".format(exc)
 
     message = "Translated audio doesn't match original wave file."
-    assert filecmp.cmp(RESOURCE_IMAGE, output_wave), message
+    assert filecmp.cmp(RESOURCE_WAVE, output_wave), message

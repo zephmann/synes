@@ -3,14 +3,14 @@
 import datetime
 import os
 
-from flask import Flask, request
+from flask import Flask, request, url_for
 from werkzeug.utils import secure_filename
 
 import synes
 
 IMAGE_EXTENSIONS = (".png", ".jpg")
 AUDIO_EXTENSIONS = (".wav",)
-ALLOWED_EXTENSIONS =  IMAGE_EXTENSIONS + AUDIO_EXTENSIONS
+ALLOWED_EXTENSIONS = IMAGE_EXTENSIONS + AUDIO_EXTENSIONS
 UPLOAD_FOLDER = os.path.abspath("./tmp/")
 UPLOAD_README = "readme.txt"
 REMOVE_AGE = 60
@@ -22,6 +22,8 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route("/")
 def index():
+    _cleanup_upload_directory()
+
     return app.send_static_file("index.html")
 
 
@@ -66,7 +68,7 @@ def upload():
         )
 
     return (
-        "Saved to {}\nTranslated to {}".format(saved_filepath, output_filepath)
+        "Saved to {}\nTranslated to <a href=\"{}\">test!</a>".format(saved_filepath, output_filepath)
     )
 
 

@@ -1,19 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <style>
+
+  </style>
 </head>
-<body>
-    <h1>Synes Upload Form</h1>
-    <form action="http://localhost:5000/upload"
+<body class="bg-white">
+<div class="container">
+  <div class="py-5 text-center">
+    <h2>Synes Image/Audio Transl8r</h2>
+    <p class="lead">Translate the pixels from an image into waveform samples or vice versa. Currently only supports .png, .jpg, and .wav files.</p>
+    <p >
+      To translate an image to an audio file, specify the number of samples per second (try 44100).
+      To translate an audio file to an image, specify the width of the image in pixels.
+    </p>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-xl-6 col-sm-12 p-3 border rounded bg-light">
+      <form action="http://localhost:5000/upload"
             method="POST" enctype="multipart/form-data">
-        <label for="upload">Image/Audio File</label>
-        <input type="file" id="upload" name="upload" /><br/>
-        <label for="dimension">Width/Sample Rate</label>
-        <input type="number" step="1" pattern="\d+"
-            name="dimension" id="dimension" value="1" min="1"/><br/>
-        <input type="submit"/>
-    </form>
+        <div class="form-group">
+          <label for="upload">Image/Audio File</label>
+          <input type="file" id="upload" name="upload"/>
+        </div>
+        <div class="form-group">
+          <label for="dimension">Width/Sample Rate</label>
+          <input type="number" step="1" pattern="\d+"
+                 name="dimension" id="dimension" value="1" min="1"/><br/>
+        </div>
+        <input type="submit" class="btn btn-primary" value="Translate"/>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<footer class="my-5 pt-5 text-muted text-center text-small">
+  <p class="mb-1">&copy;<span id="year"></span> Zertle</p>
+</footer>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+<script>document.getElementById("year").innerHTML = String(new Date().getFullYear());</script>
 </body>
 </html>

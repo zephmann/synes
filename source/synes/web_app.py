@@ -3,7 +3,7 @@
 import datetime
 import os
 
-from flask import Flask, request, url_for
+from flask import Flask, request, send_file
 from werkzeug.utils import secure_filename
 
 import synes
@@ -67,9 +67,7 @@ def upload():
             saved_filepath, translate_dimension
         )
 
-    return (
-        "Saved to {}\nTranslated to <a href=\"{}\">test!</a>".format(saved_filepath, output_filepath)
-    )
+    return send_file(output_filepath, as_attachment=True)
 
 
 def _cleanup_upload_directory():
@@ -83,7 +81,6 @@ def _cleanup_upload_directory():
         time_diff = start - ctime
 
         if time_diff.days or time_diff.seconds > REMOVE_AGE:
-            print("Removing old temp file {}".format(filepath))
             os.remove(filepath)
 
 

@@ -44,7 +44,7 @@ def upload():
 
     _, ext = os.path.splitext(filename)
     if ext not in ALLOWED_EXTENSIONS:
-        return "Unsupported file type '{}'.".format(ext)
+        return f"Unsupported file type '{ext}'."
 
     # get and validate dimension value
     if "dimension" not in request.form:

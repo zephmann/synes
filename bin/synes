@@ -1,0 +1,44 @@
+#!/usr/bin/env python3
+
+import argparse
+import os.path
+
+import synes
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Translate image files to audio and vice versa."
+    )
+    parser.add_argument(
+        "width", type=int, help="Width of output image or Sample Rate of output audio"
+    )
+    parser.add_argument(
+        "input_path", metavar="input", help="File path for the input image or audio"
+    )
+    parser.add_argument(
+        "output_path", metavar="output", help="Optional output file path", nargs="?"
+    )
+    args = parser.parse_args()
+
+    input_path = os.path.abspath(args.input_path)
+    if not os.path.exists(input_path):
+        raise IOError(f"Input path doesn't exist! '{input_path}'")
+
+    output_path = args.output_path
+    if output_path is not None:
+        output_path = os.path.abspath(args.output_path)
+
+    _, ext = os.path.splitext(input_path)
+    if ext in (".png", ".jpg"):
+        synes.translate_image(input_path, args.width, output_path)
+
+    elif ext == ".wav":
+        synes.translate_audio(input_path, args.width, output_path)
+
+    else:
+        raise RuntimeError(f"Unable to translate file, unknown file type '{ext}'")
+
+
+if __name__ == "__main__":
+    main()

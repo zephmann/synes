@@ -6,54 +6,48 @@ import wave
 
 from PIL import Image
 
-from synes.symbol import (
+from synes.constant import (
     IMAGE_MODE_TO_CHANNELS,
     DEFAULT_AUDIO_TYPE,
 )
 
+log = logging.getLogger()
 
-def translate_image(img_path, sample_rate, output_path=None):
+
+def translate_image(image_path, sample_rate, output_path=None):
     """
-    Write out a new audio file using the pixels from *img_path* as the 
+    Write out a new audio file using the pixels from *image_path* as the
     audio samples.
 
-    :param img_path: input image file path
+    :param image_path: input image file path
     :param sample_rate: sample rate for output audio file
     :param output_path: optional file path for output audio file
 
     """
-    # TODO ensure logger is configured properly
-    logger = logging.getLogger("image_to_audio")
-    logger.setLevel(logging.INFO)
-
     # resolve audio output file path
     if output_path is None:
-        img_dir, img_name = os.path.split(img_path)
-        img_name = os.path.splitext(img_name)[0]
-        output_path = os.path.join(
-            img_dir, "{}.{}".format(img_name, DEFAULT_AUDIO_TYPE)
-        )
+        image_dir, image_name = os.path.split(image_path)
+        image_name = os.path.splitext(image_name)[0]
+        output_path = os.path.join(image_dir, f"{image_name}.{DEFAULT_AUDIO_TYPE}")
 
     # TODO check that output path has correct extension
 
-    logger.info("Reading image file '{}'.".format(img_path))
-    with Image.open(img_path) as img_in:
+    log.info(f"Reading image file '{image_path}'.")
+    with Image.open(image_path) as image_in:
         try:
-            num_channels = IMAGE_MODE_TO_CHANNELS[img_in.mode]
+            num_channels = IMAGE_MODE_TO_CHANNELS[image_in.mode]
         except KeyError:
-            raise RuntimeError(
-                "Unable to parse image format '{}'.".format(img_in.mode)
-            )
+            raise RuntimeError(f"Unable to parse image format '{image_in.mode}'.")
 
-        width, height = img_in.size
+        width, height = image_in.size
 
         # TODO don't assume single bit
         bit_depth = 1
 
-        pixels = img_in.load()
+        pixels = image_in.load()
 
     # TODO better way to convert pixel samples into a list, maybe numpy
-    logger.info("Compiling pixel data.")
+    log.info("Compiling pixel data.")
     pix_list = []
     for y in range(height):
         for x in range(width):
@@ -64,18 +58,14 @@ def translate_image(img_path, sample_rate, output_path=None):
                 pix_list.extend(pix)
             else:
                 raise RuntimeError(
-                    "Unable to parse pixels, "
-                    "unrecognized pixel type '{}'.".format(type(pix))
+                    f"Unable to parse pixels, unrecognized pixel type '{type(pix)}'."
                 )
 
     # TODO check if file already exists?
 
     duration = (width * height) / sample_rate
 
-    logger.info(
-        "Translating to audio file "
-        "({} secs x {} hz).".format(duration, sample_rate)
-    )
+    log.info(f"Translating to audio file ({duration} secs x {sample_rate} hz).")
     with wave.open(output_path, "wb") as wave_out:
         wave_out.setnchannels(num_channels)
         wave_out.setsampwidth(bit_depth)
@@ -83,6 +73,6 @@ def translate_image(img_path, sample_rate, output_path=None):
 
         wave_out.writeframes(bytes(pix_list))
 
-    logger.info("Image translated successfully.")
+    log.info("Image translated successfully.")
 
     return output_path

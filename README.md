@@ -1,6 +1,6 @@
 # synes
 
-A python library to translate image files to audio and vice versa. Includes a command line interface that needs an input file and either an output width or output sample rate.
+A python library to translate image files to audio and vice versa.
 
 ## Example Usage
 Convert a .png file to a .wav file with a sample rate of 44100.

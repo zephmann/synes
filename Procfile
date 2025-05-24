@@ -1,1 +1,1 @@
-web: gunicorn source.synes.web_app:app
+web: gunicorn src.synes.web_app:app

@@ -1,2 +1,1 @@
-FLASK_APP=source/synes/web_app.py
-FLASK_ENV=development
+FLASK_APP=src/synes/web_app.py
